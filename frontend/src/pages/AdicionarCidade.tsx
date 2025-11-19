@@ -5,6 +5,8 @@ import { fetchCidadeById, addCidade, updateCidade } from '../services/api/cidade
 import { fetchPaises } from '../services/api/paises';
 import type { Cidade } from '../services/api/cidades';
 import type { Pais } from '../services/api/paises';
+import { fetchContinentes } from '../services/api/continentes';
+import BackButton from '../components/BackButton';
 
 const AdicionarCidade: React.FC = () => {
   const [nome, setNome] = useState<string>('');
@@ -16,14 +18,19 @@ const AdicionarCidade: React.FC = () => {
   const [paises, setPaises] = useState<Pais[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(fetchPaises())
+    console.log(fetchContinentes())
     const loadPaises = async () => {
-      const lista = await fetchPaises();
-      setPaises(lista);
+      try {
+        const lista = await fetchPaises();
+        setPaises(lista);
+      } catch {
+        setPaises([]);
+      }
     };
     loadPaises();
   }, []);
@@ -79,6 +86,7 @@ const AdicionarCidade: React.FC = () => {
 
   return (
     <div className="container mx-auto p-6">
+      <BackButton />
       <h1 className="text-3xl font-bold text-center">
         {isEditing ? 'Editar Cidade' : 'Adicionar Cidade'}
       </h1>

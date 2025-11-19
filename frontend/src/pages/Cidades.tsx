@@ -1,32 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { fetchCidades, deleteCidade } from '../services/api/cidades';
-import type { Cidade } from '../services/api/cidades';
-import BackButton from '../components/BackButton';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { fetchCidades, deleteCidade } from "../services/api/cidades";
+import type { Cidade } from "../services/api/cidades";
+
+import { fetchPaises } from "../services/api/paises";
+import { fetchContinentes } from "../services/api/continentes";
+
+import BackButton from "../components/BackButton";
 
 const Cidades: React.FC = () => {
   const [cidades, setCidades] = useState<Cidade[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [paisId, setPaisId] = useState("");
+  const [continenteId, setContinenteId] = useState("");
+
+  const [paises, setPaises] = useState<any[]>([]);
+  const [continentes, setContinentes] = useState<any[]>([]);
+
+  const [page, setPage] = useState(1);
+  const limit = 7;
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    const loadCidades = async () => {
+    const loadFiltersData = async () => {
       try {
-        const data = await fetchCidades();
-        setCidades(data);
-      } catch (error) {
-        setErrorMessage('Erro ao carregar as cidades.');
+        const listaPaises = await fetchPaises();
+        setPaises(listaPaises);
+
+        const listaContinentes = await fetchContinentes();
+        setContinentes(listaContinentes.data || []);
+      } catch (err) {
+        console.error("Erro carregando listas:", err);
       }
     };
-    loadCidades();
+
+    loadFiltersData();
   }, []);
 
+  const loadCidades = async () => {
+    try {
+      const params: any = { page, limit };
+
+      if (paisId) params.paisId = Number(paisId);
+      if (continenteId) params.continenteId = Number(continenteId);
+
+      const data = await fetchCidades(params);
+
+      setCidades(data.data);
+      setTotalPages(data.totalPages);
+    } catch (error) {
+      setErrorMessage("Erro ao carregar as cidades.");
+    }
+  };
+
+  useEffect(() => {
+    loadCidades();
+  }, [paisId, continenteId, page]);
+
+  const paisesFiltrados = continenteId
+    ? paises.filter((p) => p.continenteId === Number(continenteId))
+    : paises;
+
   const handleDelete = async (id: number) => {
-    if (window.confirm('Tem certeza que deseja excluir esta cidade?')) {
+    if (window.confirm("Tem certeza que deseja excluir esta cidade?")) {
       try {
         await deleteCidade(id.toString());
         setCidades((prev) => prev.filter((cidade) => cidade.id !== id));
       } catch (error) {
-        setErrorMessage('Erro ao excluir a cidade.');
+        setErrorMessage("Erro ao excluir a cidade.");
       }
     }
   };
@@ -41,23 +83,61 @@ const Cidades: React.FC = () => {
 
       <BackButton />
 
+      <div className="mt-6 flex flex-wrap gap-4 justify-center">
+        <select
+          value={continenteId}
+          onChange={(e) => {
+            setContinenteId(e.target.value);
+            setPaisId("");
+            setPage(1);
+          }}
+          className="border p-2 rounded w-full sm:w-auto"
+        >
+          <option value="">Filtrar por Continente</option>
+          {continentes.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.nome}
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={paisId}
+          onChange={(e) => {
+            setPaisId(e.target.value);
+            setPage(1);
+          }}
+          className="border p-2 rounded w-full sm:w-auto"
+        >
+          <option value="">Filtrar por País</option>
+          {paisesFiltrados.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.nome}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="mt-8">
         <ul className="space-y-4">
           {cidades.map((cidade) => (
-            <li key={cidade.id} className="flex justify-between items-center border-b pb-2">
+            <li
+              key={cidade.id}
+              className="flex justify-between items-center border-b pb-2"
+            >
               <span className="text-lg">{cidade.nome}</span>
 
               <div>
                 <Link
                   to={`/cidades/visualizar/${cidade.id}`}
-                  className="text-blue-500 hover:text-blue-700 mr-3"
+                  className="text-blue-600 hover:text-blue-800 mr-3"
                 >
                   Visualizar
                 </Link>
 
                 <Link
                   to={`/cidades/editar/${cidade.id}`}
-                  className="text-yellow-500 hover:text-yellow-700 mr-3"
+                  className="text-yellow-500 hover:text-blue-yellow mr-3"
                 >
                   Editar
                 </Link>
@@ -72,6 +152,28 @@ const Cidades: React.FC = () => {
             </li>
           ))}
         </ul>
+      </div>
+
+      <div className="flex items-center justify-center gap-4 mt-6 flex-wrap">
+        <button
+          disabled={page === 1}
+          onClick={() => setPage((p) => p - 1)}
+          className="px-4 py-2 rounded disabled:opacity-50 w-full sm:w-auto"
+        >
+          Anterior
+        </button>
+
+        <span className="text-lg font-medium">
+          Página {page} de {totalPages}
+        </span>
+
+        <button
+          disabled={page === totalPages}
+          onClick={() => setPage((p) => p + 1)}
+          className="px-4 py-2 rounded disabled:opacity-50 w-full sm:w-auto"
+        >
+          Próxima
+        </button>
       </div>
 
       <div className="mt-8 text-center">

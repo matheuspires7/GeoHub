@@ -7,12 +7,17 @@ export interface Pais {
   idiomaOficial: string;
   moeda: string;
   continenteId: number;
+  url_bandeira?: string | null;
+  pib_per_capita?: number | null;
+  inflacao?: number | null;
+
 }
 
 export const fetchPaises = async (): Promise<Pais[]> => {
   try {
     const response = await api.get("/paises");
-    return response.data;
+
+    return response.data.data;
   } catch (error) {
     console.error("Erro ao buscar países:", error);
     return [];
@@ -73,5 +78,33 @@ export const deletePais = async (
   } catch (error) {
     console.error("Erro ao excluir país:", error);
     return undefined;
+  }
+};
+
+
+export type PaginacaoPaises = {
+  data: Pais[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+};
+
+export const fetchPaisesComFiltro = async (
+  page: number = 1,
+  limit: number = 10,
+  continenteId?: number
+): Promise<PaginacaoPaises> => {
+  try {
+    const params: Record<string, any> = { page, limit };
+    if (continenteId !== undefined) {
+      params.continenteId = continenteId;
+    }
+
+    const response = await api.get("/paises", { params });
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar países:", error);
+    return { data: [], page, limit, total: 0, totalPages: 1 };
   }
 };

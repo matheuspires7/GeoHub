@@ -1,12 +1,10 @@
 import { Request, Response } from "express";
 import {
   createCidade,
-  getCidades,
-  getCidadesPorPais,
-  getCidadesPorContinente,
   getCidadeById,
   updateCidade,
   deleteCidade,
+  getAllCidades,
 } from "../services/cidadeService";
 
 export const createCidadeController = async (req: Request, res: Response) => {
@@ -27,40 +25,26 @@ export const createCidadeController = async (req: Request, res: Response) => {
   }
 };
 
-export const getCidadesController = async (_req: Request, res: Response) => {
+export const getCidadesController = async (req: Request, res: Response) => {
   try {
-    const cidades = await getCidades();
-    return res.status(200).json(cidades);
-  } catch {
+    const { page = "1", limit = "10", paisId, continenteId } = req.query;
+
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+
+    const paisIdNumber = paisId ? Number(paisId) : undefined;
+    const continenteIdNumber = continenteId ? Number(continenteId) : undefined;
+
+    const result = await getAllCidades(
+      pageNumber,
+      limitNumber,
+      paisIdNumber,
+      continenteIdNumber
+    );
+
+    return res.json(result);
+  } catch (err) {
     return res.status(500).json({ error: "Erro ao buscar cidades" });
-  }
-};
-
-export const getCidadesPorPaisController = async (
-  req: Request,
-  res: Response
-) => {
-  try {
-    const { paisId } = req.params;
-    const cidades = await getCidadesPorPais(Number(paisId));
-    return res.status(200).json(cidades);
-  } catch {
-    return res.status(500).json({ error: "Erro ao buscar cidades por país" });
-  }
-};
-
-export const getCidadesPorContinenteController = async (
-  req: Request,
-  res: Response
-) => {
-  try {
-    const { continenteId } = req.params;
-    const cidades = await getCidadesPorContinente(Number(continenteId));
-    return res.status(200).json(cidades);
-  } catch {
-    return res
-      .status(500)
-      .json({ error: "Erro ao buscar cidades por continente" });
   }
 };
 

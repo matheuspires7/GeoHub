@@ -1,5 +1,22 @@
 import api from "./api";
 
+export interface Continente {
+  id: number;
+  nome: string;
+  descricao?: string;
+}
+
+export interface Pais {
+  id: number;
+  nome: string;
+  populacao: number;
+  moeda: string;
+  idiomaOficial: string;
+  continenteId: number;
+  url_bandeira?: string | null;
+  continente: Continente;
+}
+
 export interface Cidade {
   id: number;
   nome: string;
@@ -7,18 +24,41 @@ export interface Cidade {
   latitude: number;
   longitude: number;
   paisId: number;
+  pais: Pais;
 }
 
-export const fetchCidades = async (): Promise<Cidade[]> => {
+interface FetchCidadesParams {
+  paisId?: number;
+  continenteId?: number;
+  page?: number;
+  limit?: number;
+}
+
+export const fetchCidades = async (
+  params?: FetchCidadesParams
+): Promise<{
+  data: Cidade[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}> => {
   try {
-    const response = await api.get("/cidades");
+    const response = await api.get("/cidades", { params });
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar cidades:", error);
-    return [];
+    return {
+      data: [],
+      total: 0,
+      page: params?.page ?? 1,
+      limit: params?.limit ?? 10,
+      totalPages: 0,
+    };
   }
 };
 
+// ⚡ Aqui está a mudança principal: Cidade já inclui "pais"
 export const fetchCidadeById = async (id: string): Promise<Cidade | null> => {
   try {
     const response = await api.get(`/cidades/${id}`);

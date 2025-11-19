@@ -1,83 +1,129 @@
 import { Request, Response } from "express";
 import {
   createPais,
-  getPaises,
+  getPaisById,
   updatePais,
   deletePais,
-  getPaisesPorContinente,
-  getPaisById,
+  getAllPaises,
 } from "../services/paisService";
 
 export const createPaisController = async (req: Request, res: Response) => {
   try {
-    const { nome, populacao, idiomaOficial, moeda, continenteId } = req.body;
+    const {
+      nome,
+      populacao,
+      idiomaOficial,
+      moeda,
+      continenteId,
+      url_bandeira,
+      pib_per_capita,
+      inflacao,
+    } = req.body;
+
     const pais = await createPais(
       nome,
       populacao,
       idiomaOficial,
       moeda,
-      continenteId
+      continenteId,
+      url_bandeira ?? null,
+      pib_per_capita ?? null,
+      inflacao ?? null
     );
+
     res.status(201).json(pais);
-  } catch (error) {
-    res.status(500).json({ error: "Erro ao criar país" });
+  } catch (error: any) {
+    console.error("ERRO AO CRIAR PAÍS:", error);
+
+    return res.status(500).json({
+      error: "Erro ao criar país",
+      message: error.message,
+      meta: error.meta || null,
+    });
   }
 };
 
 export const getPaisesController = async (req: Request, res: Response) => {
   try {
-    const paises = await getPaises();
-    res.status(200).json(paises);
+    const { page = "1", limit = "10", continenteId } = req.query;
+
+    const pageNumber = parseInt(page as string, 10);
+    const limitNumber = parseInt(limit as string, 10);
+
+    if (isNaN(pageNumber) || pageNumber < 1) {
+      return res.status(400).json({ error: "Página inválida" });
+    }
+    if (isNaN(limitNumber) || limitNumber < 1) {
+      return res.status(400).json({ error: "Limite inválido" });
+    }
+
+    const filters: any = {};
+    if (continenteId) {
+      const continenteParsed = Number(continenteId);
+      if (isNaN(continenteParsed)) {
+        return res.status(400).json({ error: "ID do continente inválido" });
+      }
+      filters.continenteId = continenteParsed;
+    }
+
+    const result = await getAllPaises(pageNumber, limitNumber, filters);
+    res.json(result);
   } catch (error) {
     res.status(500).json({ error: "Erro ao buscar países" });
   }
 };
 
-export const getPaisController = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  const idNumber = Number(id);
-
-  if (isNaN(idNumber)) {
-    return res.status(400).json({ message: "ID inválido" });
-  }
-
+export const getPaisByIdController = async (req: Request, res: Response) => {
   try {
+    const idNumber = Number(req.params.id);
+
+    if (isNaN(idNumber)) {
+      return res.status(400).json({ message: "ID inválido" });
+    }
+
     const pais = await getPaisById(idNumber);
+
     if (!pais) {
       return res.status(404).json({ message: "País não encontrado" });
     }
+
     res.status(200).json(pais);
   } catch (error) {
     res.status(500).json({ error: "Erro ao buscar o país" });
   }
 };
 
-export const getPaisesPorContinenteController = async (
-  req: Request,
-  res: Response
-) => {
-  try {
-    const { continenteId } = req.params;
-    const paises = await getPaisesPorContinente(Number(continenteId));
-    res.status(200).json(paises);
-  } catch (error) {
-    res.status(500).json({ error: "Erro ao buscar países por continente" });
-  }
-};
-
 export const updatePaisController = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const { nome, populacao, idiomaOficial, moeda, continenteId } = req.body;
-    const pais = await updatePais(
-      Number(id),
+    const idNumber = Number(req.params.id);
+
+    if (isNaN(idNumber)) {
+      return res.status(400).json({ message: "ID inválido" });
+    }
+
+    const {
       nome,
       populacao,
       idiomaOficial,
       moeda,
-      continenteId
+      continenteId,
+      url_bandeira,
+      pib_per_capita,
+      inflacao,
+    } = req.body;
+
+    const pais = await updatePais(
+      idNumber,
+      nome,
+      populacao,
+      idiomaOficial,
+      moeda,
+      continenteId,
+      url_bandeira ?? null,
+      pib_per_capita ?? null,
+      inflacao ?? null
     );
+
     res.status(200).json(pais);
   } catch (error) {
     res.status(500).json({ error: "Erro ao atualizar país" });
@@ -86,8 +132,13 @@ export const updatePaisController = async (req: Request, res: Response) => {
 
 export const deletePaisController = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    await deletePais(Number(id));
+    const idNumber = Number(req.params.id);
+
+    if (isNaN(idNumber)) {
+      return res.status(400).json({ message: "ID inválido" });
+    }
+
+    await deletePais(idNumber);
     res.status(200).json({ message: "País deletado com sucesso" });
   } catch (error) {
     res.status(500).json({ error: "Erro ao deletar país" });
