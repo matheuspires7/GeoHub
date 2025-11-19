@@ -49,8 +49,15 @@ const Paises: React.FC = () => {
 
               <div>
                 <Link
-                  to={`/paises/editar/${pais.id}`}
+                  to={`/paises/visualizar/${pais.id}`}
                   className="text-blue-500 hover:text-blue-700 mr-3"
+                >
+                  Visualizar
+                </Link>
+
+                <Link
+                  to={`/paises/editar/${pais.id}`}
+                  className="text-yellow-500 hover:text-yellow-700 mr-3"
                 >
                   Editar
                 </Link>

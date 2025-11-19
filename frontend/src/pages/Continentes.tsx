@@ -13,8 +13,6 @@ const Continentes: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
-  const [nome, setNome] = useState<string>("");
-
   const [reloadTrigger, setReloadTrigger] = useState<number>(0);
 
   useEffect(() => {
@@ -23,11 +21,7 @@ const Continentes: React.FC = () => {
       setErrorMessage("");
 
       try {
-        const { data, totalPages } = await fetchContinentes(
-          currentPage,
-          10,
-          nome
-        );
+        const { data, totalPages } = await fetchContinentes(currentPage, 10);
 
         if (data.length === 0 && currentPage > 1) {
           setCurrentPage(currentPage - 1);
@@ -49,7 +43,7 @@ const Continentes: React.FC = () => {
     };
 
     loadContinentes();
-  }, [currentPage, nome, reloadTrigger]);
+  }, [currentPage, reloadTrigger]);
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Tem certeza que deseja excluir este continente?")) {
@@ -61,11 +55,6 @@ const Continentes: React.FC = () => {
         setErrorMessage("Erro ao excluir o continente.");
       }
     }
-  };
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNome(event.target.value);
-    setCurrentPage(1);
   };
 
   return (
@@ -80,17 +69,6 @@ const Continentes: React.FC = () => {
 
       <BackButton />
 
-      {/* Filtro de nome */}
-      <div className="mt-4 text-center">
-        <input
-          type="text"
-          value={nome}
-          onChange={handleSearchChange}
-          placeholder="Pesquisar por nome"
-          className="p-2 border border-gray-300 rounded-md"
-        />
-      </div>
-
       {isLoading ? (
         <div className="text-center mt-10 text-xl font-semibold text-gray-600">
           Carregando dados...
@@ -102,7 +80,7 @@ const Continentes: React.FC = () => {
             <ul className="space-y-4">
               {continentes.length === 0 && !errorMessage ? (
                 <p className="text-center text-gray-500">
-                  Nenhum continente encontrado com o filtro atual.
+                  Nenhum continente encontrado.
                 </p>
               ) : (
                 continentes.map((continente) => (
@@ -113,11 +91,19 @@ const Continentes: React.FC = () => {
                     <span className="text-lg">{continente.nome}</span>
                     <div>
                       <Link
-                        to={`/continentes/editar/${continente.id}`}
+                        to={`/continentes/${continente.id}`}
                         className="text-blue-500 hover:text-blue-700 mr-3"
+                      >
+                        Visualizar
+                      </Link>
+
+                      <Link
+                        to={`/continentes/editar/${continente.id}`}
+                        className="text-yellow-500 hover:text-yellow-700 mr-3"
                       >
                         Editar
                       </Link>
+
                       <button
                         onClick={() => handleDelete(continente.id)}
                         className="text-red-500 hover:text-red-700"

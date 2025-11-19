@@ -31,7 +31,6 @@ h1 {
   color: inherit;
 }
 
-
 .back-button {
   background-color: #e53e3e;
   border: none;
@@ -46,32 +45,4 @@ h1 {
 
 .back-button:focus {
   outline: none;
-}
-
-/* Links */
-a {
-  font-weight: 500;
-  color: #ffffff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #e8e8ec;
-}
-
-/* Modo claro */
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-
-  a:hover {
-    color: #747bff;
-  }
-
-  button {
-    background-color: #f9f9f9;
-    border: 1px solid #dcdcdc;
-  }
 }
