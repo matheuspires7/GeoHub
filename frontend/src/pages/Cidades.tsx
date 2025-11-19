@@ -31,7 +31,7 @@ const Cidades: React.FC = () => {
         const listaContinentes = await fetchContinentes();
         setContinentes(listaContinentes.data || []);
       } catch (err) {
-        console.error("Erro carregando listas:", err);
+        console.error("Error loading lists:", err);
       }
     };
 
@@ -50,7 +50,7 @@ const Cidades: React.FC = () => {
       setCidades(data.data);
       setTotalPages(data.totalPages);
     } catch (error) {
-      setErrorMessage("Erro ao carregar as cidades.");
+      setErrorMessage("Error loading cities.");
     }
   };
 
@@ -63,19 +63,19 @@ const Cidades: React.FC = () => {
     : paises;
 
   const handleDelete = async (id: number) => {
-    if (window.confirm("Tem certeza que deseja excluir esta cidade?")) {
+    if (window.confirm("Are you sure you want to delete this city?")) {
       try {
         await deleteCidade(id.toString());
         setCidades((prev) => prev.filter((cidade) => cidade.id !== id));
       } catch (error) {
-        setErrorMessage("Erro ao excluir a cidade.");
+        setErrorMessage("Error deleting the city.");
       }
     }
   };
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center">Cadastro de Cidades</h1>
+      <h1 className="text-3xl font-bold text-center">Cities Registration</h1>
 
       {errorMessage && (
         <p className="text-red-500 text-center mt-3">{errorMessage}</p>
@@ -93,7 +93,7 @@ const Cidades: React.FC = () => {
           }}
           className="border p-2 rounded w-full sm:w-auto"
         >
-          <option value="">Filtrar por Continente</option>
+          <option value="">Filter by Continent</option>
           {continentes.map((c) => (
             <option key={c.id} value={c.id}>
               {c.nome}
@@ -109,7 +109,7 @@ const Cidades: React.FC = () => {
           }}
           className="border p-2 rounded w-full sm:w-auto"
         >
-          <option value="">Filtrar por País</option>
+          <option value="">Filter by Country</option>
           {paisesFiltrados.map((p) => (
             <option key={p.id} value={p.id}>
               {p.nome}
@@ -132,21 +132,21 @@ const Cidades: React.FC = () => {
                   to={`/cidades/visualizar/${cidade.id}`}
                   className="text-blue-600 hover:text-blue-800 mr-3"
                 >
-                  Visualizar
+                  View
                 </Link>
 
                 <Link
                   to={`/cidades/editar/${cidade.id}`}
                   className="text-yellow-500 hover:text-blue-yellow mr-3"
                 >
-                  Editar
+                  Edit
                 </Link>
 
                 <button
                   onClick={() => handleDelete(cidade.id)}
                   className="text-red-500 hover:text-red-700"
                 >
-                  Excluir
+                  Delete
                 </button>
               </div>
             </li>
@@ -160,11 +160,11 @@ const Cidades: React.FC = () => {
           onClick={() => setPage((p) => p - 1)}
           className="px-4 py-2 rounded disabled:opacity-50 w-full sm:w-auto"
         >
-          Anterior
+          Previous
         </button>
 
         <span className="text-lg font-medium">
-          Página {page} de {totalPages}
+          Page {page} of {totalPages}
         </span>
 
         <button
@@ -172,7 +172,7 @@ const Cidades: React.FC = () => {
           onClick={() => setPage((p) => p + 1)}
           className="px-4 py-2 rounded disabled:opacity-50 w-full sm:w-auto"
         >
-          Próxima
+          Next
         </button>
       </div>
 
@@ -181,7 +181,7 @@ const Cidades: React.FC = () => {
           to="/cidades/adicionar"
           className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-700"
         >
-          Adicionar Nova Cidade
+          Add New City
         </Link>
       </div>
     </div>

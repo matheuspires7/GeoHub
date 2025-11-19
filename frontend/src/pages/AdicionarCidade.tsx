@@ -49,10 +49,10 @@ const AdicionarCidade: React.FC = () => {
             setLongitude(cidade.longitude.toString());
             setPaisId(cidade.paisId.toString());
           } else {
-            setErrorMessage('Cidade não encontrada.');
+            setErrorMessage('City not found.');
           }
         } catch (error) {
-          setErrorMessage('Erro ao carregar a cidade.');
+          setErrorMessage('Error loading city.');
         }
       };
 
@@ -80,7 +80,7 @@ const AdicionarCidade: React.FC = () => {
       }
       navigate('/cidades');
     } catch (error) {
-      setErrorMessage('Erro ao salvar a cidade. Tente novamente.');
+      setErrorMessage('Error saving the city. Please try again.');
     }
   };
 
@@ -88,7 +88,7 @@ const AdicionarCidade: React.FC = () => {
     <div className="container mx-auto p-6">
       <BackButton />
       <h1 className="text-3xl font-bold text-center">
-        {isEditing ? 'Editar Cidade' : 'Adicionar Cidade'}
+        {isEditing ? 'Edit City' : 'Add City'}
       </h1>
 
       {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
@@ -96,7 +96,7 @@ const AdicionarCidade: React.FC = () => {
       <form onSubmit={handleSubmit} className="mt-8 max-w-md mx-auto">
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Nome</label>
+          <label className="block text-lg font-semibold">Name</label>
           <input
             type="text"
             value={nome}
@@ -107,7 +107,7 @@ const AdicionarCidade: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">População</label>
+          <label className="block text-lg font-semibold">Population</label>
           <input
             type="number"
             value={populacao}
@@ -140,14 +140,14 @@ const AdicionarCidade: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">País</label>
+          <label className="block text-lg font-semibold">Country</label>
           <select
             value={paisId}
             onChange={(e) => setPaisId(e.target.value)}
             className="w-full p-2 border rounded-md"
             required
           >
-            <option value="">Selecione o País</option>
+            <option value="">Select Country</option>
 
             {paises.map((p) => (
               <option key={p.id} value={p.id}>
@@ -161,7 +161,7 @@ const AdicionarCidade: React.FC = () => {
           type="submit"
           className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
         >
-          {isEditing ? 'Salvar Alterações' : 'Adicionar Cidade'}
+          {isEditing ? 'Save Changes' : 'Add City'}
         </button>
       </form>
     </div>

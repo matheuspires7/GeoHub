@@ -8,14 +8,13 @@ const Home: React.FC = () => {
       <h1 className="text-5xl font-bold text-center text-white">GeoHub</h1>
 
       <p className="mt-4 text-gray-300 text-center text-lg max-w-3xl">
-        O GeoHub é uma plataforma de gerenciamento geográfico onde você pode
-        explorar e gerenciar dados de continentes, países e cidades. Navegue
-        pelas informações detalhadas e visualize os dados de forma simples e
-        intuitiva.
+        The <strong> GeoHub </strong> is a geographic management platform where
+        you can explore and manage data from continents, countries, and cities.
+        Browse detailed information and view data in a simple and intuitive way.
       </p>
 
       <p className="mt-4 text-gray-400 text-center text-md">
-        Escolha uma opção abaixo para começar:
+        Select an option below to get started:
       </p>
 
       <div className="mt-10 flex flex-col md:flex-row gap-6">
@@ -24,7 +23,7 @@ const Home: React.FC = () => {
           className="flex items-center gap-3 bg-blue-500 text-white px-6 py-4 rounded-xl shadow-md hover:bg-blue-700 hover:shadow-lg transition-all"
         >
           <Globe />
-          Continentes
+          Continents
         </Link>
 
         <Link
@@ -32,7 +31,7 @@ const Home: React.FC = () => {
           className="flex items-center gap-3 bg-green-500 text-white px-6 py-4 rounded-xl shadow-md hover:bg-green-700 hover:shadow-lg transition-all"
         >
           <Map />
-          Países
+          Countries
         </Link>
 
         <Link
@@ -40,7 +39,7 @@ const Home: React.FC = () => {
           className="flex items-center gap-3 bg-yellow-500 text-white px-6 py-4 rounded-xl shadow-md hover:bg-yellow-600 hover:shadow-lg transition-all"
         >
           <Building2 />
-          Cidades
+          Cities
         </Link>
       </div>
     </div>

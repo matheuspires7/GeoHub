@@ -24,7 +24,6 @@ const AdicionarPais: React.FC = () => {
 
   const [pesquisaNome, setPesquisaNome] = useState<string>("");
 
-  // Carregar continentes
   useEffect(() => {
     const loadContinentes = async () => {
       const lista = await fetchContinentes();
@@ -33,7 +32,6 @@ const AdicionarPais: React.FC = () => {
     loadContinentes();
   }, []);
 
-  // Carregar país se estiver editando
   useEffect(() => {
     if (id) {
       setIsEditing(true);
@@ -50,17 +48,16 @@ const AdicionarPais: React.FC = () => {
             setPibPerCapita(pais.pib_per_capita?.toString() ?? "");
             setInflacao(pais.inflacao?.toString() ?? "");
           } else {
-            setErrorMessage("País não encontrado.");
+            setErrorMessage("Country not found.");
           }
         } catch {
-          setErrorMessage("Erro ao carregar o país.");
+          setErrorMessage("Error loading country.");
         }
       };
       loadPais();
     }
   }, [id]);
 
-  // Submeter formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
@@ -84,14 +81,14 @@ const AdicionarPais: React.FC = () => {
       }
       navigate("/paises");
     } catch {
-      setErrorMessage("Erro ao salvar o país. Tente novamente.");
+      setErrorMessage("Error saving the country. Please try again.");
     }
   };
 
   // Pesquisar país na API externa
   const handlePesquisar = async () => {
     if (!pesquisaNome) {
-      setErrorMessage("Informe o nome do país para pesquisar.");
+      setErrorMessage("Enter the name of the country to search for (in English).");
       return;
     }
     setErrorMessage("");
@@ -106,10 +103,10 @@ const AdicionarPais: React.FC = () => {
         setPibPerCapita(data.gdpPerCapita?.toString() ?? "");
         setInflacao(data.inflation?.toString() ?? "");
       } else {
-        setErrorMessage("País não encontrado na API externa.");
+        setErrorMessage("Country not found in the external API.");
       }
     } catch {
-      setErrorMessage("Erro ao buscar país na API externa.");
+      setErrorMessage("Error fetching country from external API.");
     }
   };
 
@@ -117,7 +114,7 @@ const AdicionarPais: React.FC = () => {
     <div className="container mx-auto p-6">
       <BackButton />
       <h1 className="text-3xl font-bold text-center">
-        {isEditing ? "Editar País" : "Adicionar País"}
+        {isEditing ? "Edit Country" : "Add Country"}
       </h1>
 
       {errorMessage && <p className="text-red-500 text-center mb-4">{errorMessage}</p>}
@@ -127,7 +124,7 @@ const AdicionarPais: React.FC = () => {
           type="text"
           value={pesquisaNome}
           onChange={(e) => setPesquisaNome(e.target.value)}
-          placeholder="Digite o nome do país"
+          placeholder="Enter the name of the country"
           className="flex-1 p-2 border rounded-md"
         />
         <button
@@ -135,14 +132,14 @@ const AdicionarPais: React.FC = () => {
           onClick={handlePesquisar}
           className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-700"
         >
-          Pesquisar
+          Search
         </button>
       </div>
 
       <form onSubmit={handleSubmit} className="mt-8 max-w-md mx-auto">
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Nome</label>
+          <label className="block text-lg font-semibold">Name</label>
           <input
             type="text"
             value={nome}
@@ -153,7 +150,7 @@ const AdicionarPais: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">População</label>
+          <label className="block text-lg font-semibold">Population</label>
           <input
             type="number"
             value={populacao}
@@ -164,7 +161,7 @@ const AdicionarPais: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Idioma Oficial</label>
+          <label className="block text-lg font-semibold">Official Language</label>
           <input
             type="text"
             value={idioma}
@@ -175,7 +172,7 @@ const AdicionarPais: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Moeda</label>
+          <label className="block text-lg font-semibold">Currency</label>
           <input
             type="text"
             value={moeda}
@@ -186,14 +183,14 @@ const AdicionarPais: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Continente</label>
+          <label className="block text-lg font-semibold">Continent</label>
           <select
             value={continenteId}
             onChange={(e) => setContinenteId(e.target.value)}
             className="w-full p-2 border rounded-md"
             required
           >
-            <option value="">Selecione o Continente</option>
+            <option value="">Select Continent</option>
             {continentes.map((c) => (
               <option key={c.id} value={c.id}>{c.nome}</option>
             ))}
@@ -201,7 +198,7 @@ const AdicionarPais: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">URL da Bandeira</label>
+          <label className="block text-lg font-semibold">Flag URL</label>
           <input
             type="text"
             value={urlBandeira}
@@ -214,7 +211,7 @@ const AdicionarPais: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">PIB per Capita</label>
+          <label className="block text-lg font-semibold">GDP per capita</label>
           <input
             type="number"
             value={pibPerCapita}
@@ -224,7 +221,7 @@ const AdicionarPais: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Inflação (%)</label>
+          <label className="block text-lg font-semibold">Inflation (%)</label>
           <input
             type="number"
             value={inflacao}
@@ -237,7 +234,7 @@ const AdicionarPais: React.FC = () => {
           type="submit"
           className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
         >
-          {isEditing ? "Salvar Alterações" : "Adicionar País"}
+          {isEditing ? "Save Changes" : "Add Country"}
         </button>
       </form>
     </div>

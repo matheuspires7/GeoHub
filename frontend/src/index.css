@@ -47,3 +47,8 @@ h1 {
 .back-button:focus {
   outline: none;
 }
+
+option {
+  color: black;
+  background-color: white;
+}

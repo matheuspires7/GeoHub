@@ -30,8 +30,8 @@ const VisualizarContinente: React.FC = () => {
         const data = await fetchContinenteById(Number(id));
         setContinente(data);
       } catch (error) {
-        console.error("Erro carregando continente:", error);
-        setErrorMessage("Erro ao carregar detalhes do continente.");
+        console.error("Error loading continent:", error);
+        setErrorMessage("Error loading continent details.");
       }
     };
 
@@ -43,29 +43,29 @@ const VisualizarContinente: React.FC = () => {
   }
 
   if (!continente) {
-    return <p className="text-center text-gray-600 mt-10">Carregando dados...</p>;
+    return <p className="text-center text-gray-600 mt-10">Loading data...</p>;
   }
 
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl text-gray-900">
       <h1 className="text-3xl font-bold text-center mb-4">
-        Detalhes do Continente: {continente.nome}
+        Continent Details: {continente.nome}
       </h1>
 
       <div className="space-y-4 text-lg">
         <div>
-          <span className="font-semibold">Nome:</span> {continente.nome}
+          <span className="font-semibold">Name:</span> {continente.nome}
         </div>
 
         {continente.descricao && (
           <div>
-            <span className="font-semibold">Descrição:</span> {continente.descricao}
+            <span className="font-semibold">Description:</span> {continente.descricao}
           </div>
         )}
 
         {continente.paises && continente.paises.length > 0 && (
           <div>
-            <span className="font-semibold">Países:</span>
+            <span className="font-semibold">Countries:</span>
             <ul className="list-disc ml-6 mt-1">
               {continente.paises.map((pais) => (
                 <li key={pais.id}>
@@ -82,7 +82,7 @@ const VisualizarContinente: React.FC = () => {
           to="/continentes"
           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
         >
-          Voltar
+          Back
         </Link>
       </div>
     </div>

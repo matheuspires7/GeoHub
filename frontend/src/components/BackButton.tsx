@@ -12,7 +12,7 @@ const BackButton: React.FC = () => {
         className="flex items-center gap-2 sm:gap-3 bg-red-600 text-white px-4 sm:px-6 py-2 sm:py-4 rounded-xl shadow-md hover:bg-red-700 hover:shadow-lg transition-all text-sm sm:text-base"
       >
         <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-        <span>Voltar</span>
+        <span>Return</span>
       </button>
     </div>
   );

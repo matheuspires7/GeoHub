@@ -16,20 +16,18 @@ const PaisesPage: React.FC = () => {
   const limit = 7;
   const [totalPages, setTotalPages] = useState(1);
 
-  // Carrega continentes
   useEffect(() => {
     const loadContinentes = async () => {
       try {
         const data = await fetchContinentes();
         setContinentes(data.data || []);
       } catch (err) {
-        console.error("Erro ao carregar continentes:", err);
+        console.error("Error loading continents:", err);
       }
     };
     loadContinentes();
   }, []);
 
-  // Carrega países com paginação e filtro
   const loadPaises = async () => {
     try {
       const data = await fetchPaisesComFiltro(
@@ -41,7 +39,7 @@ const PaisesPage: React.FC = () => {
       setPaises(data.data);
       setTotalPages(data.totalPages);
     } catch (err) {
-      setErrorMessage("Erro ao carregar os países.");
+      setErrorMessage("Error loading countries.");
     }
   };
 
@@ -50,19 +48,19 @@ const PaisesPage: React.FC = () => {
   }, [continenteId, page]);
 
   const handleDelete = async (id: number) => {
-    if (window.confirm("Tem certeza que deseja excluir este país?")) {
+    if (window.confirm("Are you sure you want to delete this country?")) {
       try {
         await deletePais(id.toString());
         setPaises((prev) => prev.filter((p) => p.id !== id));
       } catch (err) {
-        setErrorMessage("Erro ao excluir o país.");
+        setErrorMessage("Error deleting the country.");
       }
     }
   };
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center">Cadastro de Países</h1>
+      <h1 className="text-3xl font-bold text-center">Countries Registration</h1>
 
       {errorMessage && (
         <p className="text-red-500 text-center mt-3">{errorMessage}</p>
@@ -79,7 +77,7 @@ const PaisesPage: React.FC = () => {
           }}
           className="border p-2 rounded w-full sm:w-auto"
         >
-          <option value="">Filtrar por Continente</option>
+          <option value="">Filter by Continent</option>
           {continentes.map((c) => (
             <option key={c.id} value={c.id}>
               {c.nome}
@@ -102,21 +100,21 @@ const PaisesPage: React.FC = () => {
                   to={`/paises/visualizar/${pais.id}`}
                   className="text-blue-600 hover:text-blue-800 mr-3"
                 >
-                  Visualizar
+                  View
                 </Link>
 
                 <Link
                   to={`/paises/editar/${pais.id}`}
                   className="text-yellow-500 hover:text-blue-yellow mr-3"
                 >
-                  Editar
+                  Edit
                 </Link>
 
                 <button
                   onClick={() => handleDelete(pais.id)}
                   className="text-red-500 hover:text-red-700"
                 >
-                  Excluir
+                  Delete
                 </button>
               </div>
             </li>
@@ -130,11 +128,11 @@ const PaisesPage: React.FC = () => {
           onClick={() => setPage((p) => p - 1)}
           className="px-4 py-2 rounded disabled:opacity-50 w-full sm:w-auto"
         >
-          Anterior
+          Previous
         </button>
 
         <span className="text-lg font-medium">
-          Página {page} de {totalPages}
+          Page {page} of {totalPages}
         </span>
 
         <button
@@ -142,7 +140,7 @@ const PaisesPage: React.FC = () => {
           onClick={() => setPage((p) => p + 1)}
           className="px-4 py-2  rounded disabled:opacity-50 w-full sm:w-auto"
         >
-          Próxima
+          Next
         </button>
       </div>
 
@@ -151,7 +149,7 @@ const PaisesPage: React.FC = () => {
           to="/paises/adicionar"
           className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-700"
         >
-          Adicionar Novo País
+          Add New Country
         </Link>
       </div>
     </div>

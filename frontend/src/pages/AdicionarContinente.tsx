@@ -23,7 +23,7 @@ const AdicionarContinente: React.FC = () => {
         try {
           const idNumber = parseInt(id, 10);
           if (isNaN(idNumber)) {
-            setErrorMessage("ID inválido.");
+            setErrorMessage("Invalid ID.");
             return;
           }
 
@@ -34,10 +34,10 @@ const AdicionarContinente: React.FC = () => {
             setNome(continente.nome);
             setDescricao(continente.descricao);
           } else {
-            setErrorMessage("Continente não encontrado.");
+            setErrorMessage("Continent not found.");
           }
         } catch (error) {
-          setErrorMessage("Erro ao carregar o continente.");
+          setErrorMessage("Error loading continent.");
         }
       };
       loadContinente();
@@ -52,7 +52,7 @@ const AdicionarContinente: React.FC = () => {
       if (isEditing) {
         const idNumber = parseInt(id!, 10);
         if (isNaN(idNumber)) {
-          setErrorMessage("ID inválido.");
+          setErrorMessage("Invalid ID.");
           return;
         }
         await updateContinente(idNumber, { nome, descricao });
@@ -61,7 +61,7 @@ const AdicionarContinente: React.FC = () => {
       }
       navigate("/continentes");
     } catch (error) {
-      setErrorMessage("Erro ao salvar o continente. Tente novamente.");
+      setErrorMessage("Error saving continent. Please try again.");
     }
   };
 
@@ -69,7 +69,7 @@ const AdicionarContinente: React.FC = () => {
     <div className="container mx-auto p-6">
         <BackButton />
       <h1 className="text-3xl font-bold text-center">
-        {isEditing ? "Editar Continente" : "Adicionar Continente"}
+        {isEditing ? "Edit Continent" : "Add Continent"}
       </h1>
 
       {errorMessage && (
@@ -79,7 +79,7 @@ const AdicionarContinente: React.FC = () => {
       <form onSubmit={handleSubmit} className="mt-8 max-w-md mx-auto">
         <div className="mb-4">
           <label htmlFor="nome" className="block text-lg font-semibold">
-            Nome
+            Name
           </label>
           <input
             type="text"
@@ -92,7 +92,7 @@ const AdicionarContinente: React.FC = () => {
         </div>
         <div className="mb-4">
           <label htmlFor="descricao" className="block text-lg font-semibold">
-            Descrição
+            Description
           </label>
           <textarea
             id="descricao"
@@ -106,7 +106,7 @@ const AdicionarContinente: React.FC = () => {
           type="submit"
           className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
         >
-          {isEditing ? "Salvar Alterações" : "Adicionar Continente"}
+          {isEditing ? "Save Changes" : "Add Continent"}
         </button>
       </form>
     </div>

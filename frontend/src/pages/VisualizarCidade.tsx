@@ -32,13 +32,12 @@ const VisualizarCidade: React.FC = () => {
       try {
         if (!id) return;
 
-        // Conversão correta do ID para número
         const cidadeCarregada = await fetchCidadeById(id!);
 
         setCidade(cidadeCarregada);
       } catch (error) {
-        console.error("Erro carregando cidade:", error);
-        setErrorMessage("Erro ao carregar detalhes da cidade.");
+        console.error("Error loading city:", error);
+        setErrorMessage("Error loading city details.");
       }
     };
 
@@ -50,41 +49,41 @@ const VisualizarCidade: React.FC = () => {
   }
 
   if (!cidade) {
-    return <p className="text-center text-gray-600 mt-10">Carregando dados...</p>;
+    return <p className="text-center text-gray-600 mt-10">Loading data...</p>;
   }
 
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl text-gray-900">
       <h1 className="text-3xl font-bold text-center mb-4">
-        Detalhes de {cidade.nome}
+        Details of {cidade.nome}
       </h1>
 
       <div className="space-y-4 text-lg">
         <div>
-          <span className="font-semibold">Cidade:</span> {cidade.nome}
+          <span className="font-semibold">City:</span> {cidade.nome}
         </div>
 
         <div>
-          <span className="font-semibold">País:</span> {cidade.pais.nome}
+          <span className="font-semibold">Country:</span> {cidade.pais.nome}
         </div>
 
         <div>
-          <span className="font-semibold">Continente:</span>{" "}
+          <span className="font-semibold">Continent:</span>{" "}
           {cidade.pais.continente.nome}
         </div>
 
         <div>
-          <span className="font-semibold">População do País:</span>{" "}
+          <span className="font-semibold">Country population:</span>{" "}
           {cidade.pais.populacao.toLocaleString("pt-BR")}
         </div>
 
         <div>
-          <span className="font-semibold">Idioma Oficial:</span>{" "}
+          <span className="font-semibold">Official Language:</span>{" "}
           {cidade.pais.idiomaOficial}
         </div>
 
         <div>
-          <span className="font-semibold">Moeda:</span> {cidade.pais.moeda}
+          <span className="font-semibold">Currency:</span> {cidade.pais.moeda}
         </div>
       </div>
 
@@ -93,7 +92,7 @@ const VisualizarCidade: React.FC = () => {
           to="/cidades"
           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
         >
-          Voltar
+          Back
         </Link>
       </div>
     </div>
