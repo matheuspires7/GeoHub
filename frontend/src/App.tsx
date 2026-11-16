@@ -12,6 +12,7 @@ import VisualizarPais from './pages/VisualizarPais';
 import VisualizarContinente from './pages/VisualizarContinente';
 import Login from './pages/Login';
 import RotaProtegida from './components/RotaProtegida';
+import Usuarios from './pages/Usuarios';
 
 const App: React.FC = () => {
   return (
@@ -35,7 +36,8 @@ const App: React.FC = () => {
           <Route path="/cidades" element={<Cidades />} />
           <Route path="/cidades/adicionar" element={<AdicionarCidade />} />
           <Route path="/cidades/editar/:id" element={<AdicionarCidade />} />
-          <Route path="/cidades/visualizar/:id" element={<VisualizarCidade />} /> 
+          <Route path="/cidades/visualizar/:id" element={<VisualizarCidade />} />
+          <Route path="/usuarios" element={<Usuarios />} /> 
         </Route>
       </Routes>
     </Router>

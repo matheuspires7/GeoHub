@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Globe, Map, Building2, LogOut } from "lucide-react";
+import { Globe, Map, Building2, LogOut, UserPlus } from "lucide-react";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -61,6 +61,14 @@ const Home: React.FC = () => {
         >
           <Building2 />
           Cities
+        </Link>
+
+        <Link
+          to="/usuarios"
+          className="flex items-center gap-3 bg-purple-500 text-white px-6 py-4 rounded-xl shadow-md hover:bg-purple-700 hover:shadow-lg transition-all"
+        >
+          <UserPlus />
+          Users
         </Link>
       </div>
     </div>
