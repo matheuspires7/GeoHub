@@ -20,6 +20,9 @@ services:
     restart: always
     environment:
       DATABASE_URL: mysql://${DB_USER}:${DB_PASS}@db:3306/${DB_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_USER: ${ADMIN_USER}
+      ADMIN_PASS: ${ADMIN_PASS}
     depends_on:
       db:
         condition: service_healthy

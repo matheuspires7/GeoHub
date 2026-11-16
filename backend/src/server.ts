@@ -1,7 +1,11 @@
 import app from "./app";
+import { criarAdminInicial } from "./services/authService";
 
 const PORT = 3000;
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+// garante o admin antes de começar a aceitar acessos
+criarAdminInicial().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+  });
 });
