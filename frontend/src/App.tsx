@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Continentes from './pages/Continentes';
@@ -14,17 +14,11 @@ import Login from './pages/Login';
 import RotaProtegida from './components/RotaProtegida';
 import Usuarios from './pages/Usuarios';
 
+// o Nginx do front escreve no HTML qual container entregou a página
+const servidor =
+  document.querySelector('meta[name="servidor"]')?.getAttribute("content") ?? "";
+
 const App: React.FC = () => {
-  // pergunta ao Nginx do front qual container respondeu
-  const [servidor, setServidor] = useState("");
-
-  useEffect(() => {
-    fetch("/servidor")
-      .then((res) => res.text())
-      .then(setServidor)
-      .catch(() => setServidor(""));
-  }, []);
-
   return (
     <Router>
       {servidor && (
