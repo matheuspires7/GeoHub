@@ -39,49 +39,56 @@ const VisualizarContinente: React.FC = () => {
   }, [id]);
 
   if (errorMessage) {
-    return <p className="text-center text-red-600 mt-10">{errorMessage}</p>;
+    return (
+      <div className="page">
+        <p className="alert-error">{errorMessage}</p>
+      </div>
+    );
   }
 
   if (!continente) {
-    return <p className="text-center text-gray-600 mt-10">Loading data...</p>;
+    return (
+      <div className="page">
+        <p className="text-center text-gray-400">Loading data...</p>
+      </div>
+    );
   }
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl text-gray-900">
-      <h1 className="text-3xl font-bold text-center mb-4">
-        Continent Details: {continente.nome}
-      </h1>
+    <div className="page">
+      <h1 className="page-title">Continent Details: {continente.nome}</h1>
 
-      <div className="space-y-4 text-lg">
+      <dl className="card mx-auto max-w-lg space-y-4">
         <div>
-          <span className="font-semibold">Name:</span> {continente.nome}
+          <dt className="text-sm text-gray-400">Name</dt>
+          <dd className="text-lg">{continente.nome}</dd>
         </div>
 
         {continente.descricao && (
           <div>
-            <span className="font-semibold">Description:</span> {continente.descricao}
+            <dt className="text-sm text-gray-400">Description</dt>
+            <dd className="text-lg">{continente.descricao}</dd>
           </div>
         )}
 
         {continente.paises && continente.paises.length > 0 && (
           <div>
-            <span className="font-semibold">Countries:</span>
-            <ul className="list-disc ml-6 mt-1">
-              {continente.paises.map((pais) => (
-                <li key={pais.id}>
-                  {pais.nome} - {pais.populacao.toLocaleString("pt-BR")} hab.
-                </li>
-              ))}
-            </ul>
+            <dt className="text-sm text-gray-400">Countries</dt>
+            <dd>
+              <ul className="ml-6 mt-1 list-disc text-lg">
+                {continente.paises.map((pais) => (
+                  <li key={pais.id}>
+                    {pais.nome} - {pais.populacao.toLocaleString("pt-BR")} hab.
+                  </li>
+                ))}
+              </ul>
+            </dd>
           </div>
         )}
-      </div>
+      </dl>
 
       <div className="mt-8 text-center">
-        <Link
-          to="/continentes"
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-        >
+        <Link to="/continentes" className="btn btn-primary">
           Back
         </Link>
       </div>

@@ -7,6 +7,7 @@ import { fetchPaises } from "../services/api/paises";
 import { fetchContinentes } from "../services/api/continentes";
 
 import BackButton from "../components/BackButton";
+import Paginacao from "../components/Paginacao";
 
 const Cidades: React.FC = () => {
   const [cidades, setCidades] = useState<Cidade[]>([]);
@@ -74,16 +75,13 @@ const Cidades: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center">Cities Registration</h1>
-
-      {errorMessage && (
-        <p className="text-red-500 text-center mt-3">{errorMessage}</p>
-      )}
-
+    <div className="page">
       <BackButton />
+      <h1 className="page-title">Cities Registration</h1>
 
-      <div className="mt-6 flex flex-wrap gap-4 justify-center">
+      {errorMessage && <p className="alert-error">{errorMessage}</p>}
+
+      <div className="mb-6 flex flex-wrap justify-center gap-4">
         <select
           value={continenteId}
           onChange={(e) => {
@@ -91,7 +89,7 @@ const Cidades: React.FC = () => {
             setPaisId("");
             setPage(1);
           }}
-          className="border p-2 rounded w-full sm:w-auto"
+          className="form-input sm:w-auto"
         >
           <option value="">Filter by Continent</option>
           {continentes.map((c) => (
@@ -107,7 +105,7 @@ const Cidades: React.FC = () => {
             setPaisId(e.target.value);
             setPage(1);
           }}
-          className="border p-2 rounded w-full sm:w-auto"
+          className="form-input sm:w-auto"
         >
           <option value="">Filter by Country</option>
           {paisesFiltrados.map((p) => (
@@ -118,69 +116,48 @@ const Cidades: React.FC = () => {
         </select>
       </div>
 
-      <div className="mt-8">
-        <ul className="space-y-4">
-          {cidades.map((cidade) => (
-            <li
-              key={cidade.id}
-              className="flex justify-between items-center border-b pb-2"
-            >
-              <span className="text-lg">{cidade.nome}</span>
+      <div className="card">
+        {cidades.length === 0 ? (
+          <p className="text-center text-gray-400">No cities found.</p>
+        ) : (
+          <ul className="divide-y divide-white/10">
+            {cidades.map((cidade) => (
+              <li
+                key={cidade.id}
+                className="flex items-center justify-between gap-4 py-3"
+              >
+                <span className="text-lg">{cidade.nome}</span>
 
-              <div>
-                <Link
-                  to={`/cidades/visualizar/${cidade.id}`}
-                  className="text-blue-600 hover:text-blue-800 mr-3"
-                >
-                  View
-                </Link>
-
-                <Link
-                  to={`/cidades/editar/${cidade.id}`}
-                  className="text-yellow-500 hover:text-blue-yellow mr-3"
-                >
-                  Edit
-                </Link>
-
-                <button
-                  onClick={() => handleDelete(cidade.id)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+                <div className="flex gap-4">
+                  <Link
+                    to={`/cidades/visualizar/${cidade.id}`}
+                    className="text-blue-400 hover:text-blue-300"
+                  >
+                    View
+                  </Link>
+                  <Link
+                    to={`/cidades/editar/${cidade.id}`}
+                    className="text-yellow-400 hover:text-yellow-300"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(cidade.id)}
+                    className="text-red-400 hover:text-red-300"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
-      <div className="flex items-center justify-center gap-4 mt-6 flex-wrap">
-        <button
-          disabled={page === 1}
-          onClick={() => setPage((p) => p - 1)}
-          className="px-4 py-2 rounded disabled:opacity-50 w-full sm:w-auto"
-        >
-          Previous
-        </button>
-
-        <span className="text-lg font-medium">
-          Page {page} of {totalPages}
-        </span>
-
-        <button
-          disabled={page === totalPages}
-          onClick={() => setPage((p) => p + 1)}
-          className="px-4 py-2 rounded disabled:opacity-50 w-full sm:w-auto"
-        >
-          Next
-        </button>
-      </div>
+      <Paginacao page={page} totalPages={totalPages} onChange={setPage} />
 
       <div className="mt-8 text-center">
-        <Link
-          to="/cidades/adicionar"
-          className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-700"
-        >
+        <Link to="/cidades/adicionar" className="btn btn-success">
           Add New City
         </Link>
       </div>

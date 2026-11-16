@@ -45,53 +45,54 @@ const VisualizarCidade: React.FC = () => {
   }, [id]);
 
   if (errorMessage) {
-    return <p className="text-center text-red-600 mt-10">{errorMessage}</p>;
+    return (
+      <div className="page">
+        <p className="alert-error">{errorMessage}</p>
+      </div>
+    );
   }
 
   if (!cidade) {
-    return <p className="text-center text-gray-600 mt-10">Loading data...</p>;
+    return (
+      <div className="page">
+        <p className="text-center text-gray-400">Loading data...</p>
+      </div>
+    );
   }
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl text-gray-900">
-      <h1 className="text-3xl font-bold text-center mb-4">
-        Details of {cidade.nome}
-      </h1>
+    <div className="page">
+      <h1 className="page-title">Details of {cidade.nome}</h1>
 
-      <div className="space-y-4 text-lg">
+      <dl className="card mx-auto max-w-lg space-y-4">
         <div>
-          <span className="font-semibold">City:</span> {cidade.nome}
+          <dt className="text-sm text-gray-400">City</dt>
+          <dd className="text-lg">{cidade.nome}</dd>
         </div>
-
         <div>
-          <span className="font-semibold">Country:</span> {cidade.pais.nome}
+          <dt className="text-sm text-gray-400">Country</dt>
+          <dd className="text-lg">{cidade.pais.nome}</dd>
         </div>
-
         <div>
-          <span className="font-semibold">Continent:</span>{" "}
-          {cidade.pais.continente.nome}
+          <dt className="text-sm text-gray-400">Continent</dt>
+          <dd className="text-lg">{cidade.pais.continente.nome}</dd>
         </div>
-
         <div>
-          <span className="font-semibold">Country population:</span>{" "}
-          {cidade.pais.populacao.toLocaleString("pt-BR")}
+          <dt className="text-sm text-gray-400">Country population</dt>
+          <dd className="text-lg">{cidade.pais.populacao.toLocaleString("pt-BR")}</dd>
         </div>
-
         <div>
-          <span className="font-semibold">Official Language:</span>{" "}
-          {cidade.pais.idiomaOficial}
+          <dt className="text-sm text-gray-400">Official Language</dt>
+          <dd className="text-lg">{cidade.pais.idiomaOficial}</dd>
         </div>
-
         <div>
-          <span className="font-semibold">Currency:</span> {cidade.pais.moeda}
+          <dt className="text-sm text-gray-400">Currency</dt>
+          <dd className="text-lg">{cidade.pais.moeda}</dd>
         </div>
-      </div>
+      </dl>
 
       <div className="mt-8 text-center">
-        <Link
-          to="/cidades"
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-        >
+        <Link to="/cidades" className="btn btn-primary">
           Back
         </Link>
       </div>

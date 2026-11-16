@@ -12,8 +12,6 @@ export const fetchContinentes = async (
   nome: string = ""
 ): Promise<{ data: Continente[]; totalPages: number; totalCount: number }> => {
   try {
-    console.log("Parâmetros enviados para a API:", { page, limit, nome });
-
     const response = await api.get("/continentes", {
       params: {
         page,

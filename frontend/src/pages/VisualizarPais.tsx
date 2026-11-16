@@ -38,18 +38,18 @@ const VisualizarPais: React.FC = () => {
 
   if (errorMessage) {
     return (
-      <div className="container mx-auto p-6">
+      <div className="page">
         <BackButton />
-        <p className="text-red-500 text-center mt-3">{errorMessage}</p>
+        <p className="alert-error">{errorMessage}</p>
       </div>
     );
   }
 
   if (!pais) {
     return (
-      <div className="container mx-auto p-6 text-center">
+      <div className="page">
         <BackButton />
-        <p>Loading country data...</p>
+        <p className="text-center text-gray-400">Loading country data...</p>
       </div>
     );
   }
@@ -63,36 +63,55 @@ const VisualizarPais: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">Country Details</h1>
-
+    <div className="page">
       <BackButton />
+      <h1 className="page-title">Country Details</h1>
 
-      <div className="mt-6 border rounded-lg p-6 bg-white shadow-md max-w-lg mx-auto text-gray-900 space-y-2">
-        <p><strong>Name:</strong> {pais.nome}</p>
-        <p><strong>Population:</strong> {pais.populacao.toLocaleString()}</p>
-        <p><strong>Official Language:</strong> {pais.idiomaOficial}</p>
-        <p><strong>Currency:</strong> {pais.moeda}</p>
-        <p><strong>Continent:</strong> {continenteNome}</p>
+      <dl className="card mx-auto max-w-lg space-y-4">
+        <div>
+          <dt className="text-sm text-gray-400">Name</dt>
+          <dd className="text-lg">{pais.nome}</dd>
+        </div>
+        <div>
+          <dt className="text-sm text-gray-400">Population</dt>
+          <dd className="text-lg">{pais.populacao.toLocaleString()}</dd>
+        </div>
+        <div>
+          <dt className="text-sm text-gray-400">Official Language</dt>
+          <dd className="text-lg">{pais.idiomaOficial}</dd>
+        </div>
+        <div>
+          <dt className="text-sm text-gray-400">Currency</dt>
+          <dd className="text-lg">{pais.moeda}</dd>
+        </div>
+        <div>
+          <dt className="text-sm text-gray-400">Continent</dt>
+          <dd className="text-lg">{continenteNome}</dd>
+        </div>
         {pais.url_bandeira && (
           <div>
-            <strong>Flag:</strong>
-            <img
-              src={pais.url_bandeira}
-              alt={`Flag of ${pais.nome}`}
-              className="mt-2 w-40 h-auto border"
-            />
+            <dt className="text-sm text-gray-400">Flag</dt>
+            <dd>
+              <img
+                src={pais.url_bandeira}
+                alt={`Flag of ${pais.nome}`}
+                className="mt-2 h-auto w-40 rounded border border-white/10"
+              />
+            </dd>
           </div>
         )}
-        <p><strong>GDP per capita:</strong> {pais.pib_per_capita !== undefined && pais.pib_per_capita !== null ? `$${formatNumber(pais.pib_per_capita)}` : "Not available"}</p>
-        <p><strong>Inflation:</strong> {pais.inflacao !== undefined && pais.inflacao !== null ? `${formatNumber(pais.inflacao)}%` : "Not available"}</p>
-      </div>
+        <div>
+          <dt className="text-sm text-gray-400">GDP per capita</dt>
+          <dd className="text-lg">{pais.pib_per_capita !== undefined && pais.pib_per_capita !== null ? `$${formatNumber(pais.pib_per_capita)}` : "Not available"}</dd>
+        </div>
+        <div>
+          <dt className="text-sm text-gray-400">Inflation</dt>
+          <dd className="text-lg">{pais.inflacao !== undefined && pais.inflacao !== null ? `${formatNumber(pais.inflacao)}%` : "Not available"}</dd>
+        </div>
+      </dl>
 
-      <div className="mt-6 text-center">
-        <Link
-          to="/paises"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
-        >
+      <div className="mt-8 text-center">
+        <Link to="/paises" className="btn btn-primary">
           Return to Countries
         </Link>
       </div>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { fetchContinentes, deleteContinente } from "../services/api/continentes";
 import type { Continente } from "../services/api/continentes";
 import BackButton from "../components/BackButton";
+import Paginacao from "../components/Paginacao";
 
 const Continentes: React.FC = () => {
   const [continentes, setContinentes] = useState<Continente[]>([]);
@@ -42,81 +43,54 @@ const Continentes: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center">Continents Registration</h1>
-
-      {errorMessage && (
-        <p className="text-red-500 text-center mt-3">{errorMessage}</p>
-      )}
-
+    <div className="page">
       <BackButton />
+      <h1 className="page-title">Continents Registration</h1>
 
-      <div className="mt-8">
-        <ul className="space-y-4">
-          {continentes.length === 0 ? (
-            <p className="text-center text-gray-500">No continents registered.</p>
-          ) : (
-            continentes.map((continente) => (
+      {errorMessage && <p className="alert-error">{errorMessage}</p>}
+
+      <div className="card">
+        {continentes.length === 0 ? (
+          <p className="text-center text-gray-400">No continents registered.</p>
+        ) : (
+          <ul className="divide-y divide-white/10">
+            {continentes.map((continente) => (
               <li
                 key={continente.id}
-                className="flex justify-between items-center border-b pb-2"
+                className="flex items-center justify-between gap-4 py-3"
               >
                 <span className="text-lg">{continente.nome}</span>
 
-                <div className="flex gap-3">
+                <div className="flex gap-4">
                   <Link
                     to={`/continentes/visualizar/${continente.id}`}
-                    className="text-blue-600 hover:text-blue-800 mr-3"
+                    className="text-blue-400 hover:text-blue-300"
                   >
                     View
                   </Link>
                   <Link
                     to={`/continentes/editar/${continente.id}`}
-                    className="text-yellow-500 hover:text-blue-yellow mr-3"
+                    className="text-yellow-400 hover:text-yellow-300"
                   >
                     Edit
                   </Link>
                   <button
                     onClick={() => handleDelete(continente.id)}
-                    className="text-red-500 hover:text-red-700"
+                    className="text-red-400 hover:text-red-300"
                   >
                     Delete
                   </button>
                 </div>
               </li>
-            ))
-          )}
-        </ul>
+            ))}
+          </ul>
+        )}
       </div>
 
-      {/* Paginação */}
-      <div className="flex items-center justify-center gap-4 mt-6 flex-wrap">
-        <button
-          disabled={page === 1}
-          onClick={() => setPage((p) => p - 1)}
-          className="px-4 py-2 rounded disabled:opacity-50 w-full sm:w-auto"
-        >
-          Previous
-        </button>
-
-        <span className="text-lg font-medium">
-          Page {page} of {totalPages}
-        </span>
-
-        <button
-          disabled={page === totalPages}
-          onClick={() => setPage((p) => p + 1)}
-          className="px-4 py-2 rounded disabled:opacity-50 w-full sm:w-auto"
-        >
-          Next
-        </button>
-      </div>
+      <Paginacao page={page} totalPages={totalPages} onChange={setPage} />
 
       <div className="mt-8 text-center">
-        <Link
-          to="/continentes/adicionar"
-          className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-700"
-        >
+        <Link to="/continentes/adicionar" className="btn btn-success">
           Add New Continent
         </Link>
       </div>

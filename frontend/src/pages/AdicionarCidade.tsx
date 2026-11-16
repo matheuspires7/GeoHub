@@ -5,7 +5,6 @@ import { fetchCidadeById, addCidade, updateCidade } from '../services/api/cidade
 import { fetchPaises } from '../services/api/paises';
 import type { Cidade } from '../services/api/cidades';
 import type { Pais } from '../services/api/paises';
-import { fetchContinentes } from '../services/api/continentes';
 import BackButton from '../components/BackButton';
 
 const AdicionarCidade: React.FC = () => {
@@ -22,8 +21,6 @@ const AdicionarCidade: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(fetchPaises())
-    console.log(fetchContinentes())
     const loadPaises = async () => {
       try {
         const lista = await fetchPaises();
@@ -85,66 +82,66 @@ const AdicionarCidade: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="page">
       <BackButton />
-      <h1 className="text-3xl font-bold text-center">
+      <h1 className="page-title">
         {isEditing ? 'Edit City' : 'Add City'}
       </h1>
 
-      {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
+      {errorMessage && <p className="alert-error">{errorMessage}</p>}
 
-      <form onSubmit={handleSubmit} className="mt-8 max-w-md mx-auto">
+      <form onSubmit={handleSubmit} className="card mx-auto max-w-md">
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Name</label>
+          <label className="form-label">Name</label>
           <input
             type="text"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="form-input"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Population</label>
+          <label className="form-label">Population</label>
           <input
             type="number"
             value={populacao}
             onChange={(e) => setPopulacao(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="form-input"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Latitude</label>
+          <label className="form-label">Latitude</label>
           <input
             type="number"
             value={latitude}
             onChange={(e) => setLatitude(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="form-input"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Longitude</label>
+          <label className="form-label">Longitude</label>
           <input
             type="number"
             value={longitude}
             onChange={(e) => setLongitude(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="form-input"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Country</label>
+          <label className="form-label">Country</label>
           <select
             value={paisId}
             onChange={(e) => setPaisId(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="form-input"
             required
           >
             <option value="">Select Country</option>
@@ -159,7 +156,7 @@ const AdicionarCidade: React.FC = () => {
 
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+          className="btn btn-primary w-full"
         >
           {isEditing ? 'Save Changes' : 'Add City'}
         </button>

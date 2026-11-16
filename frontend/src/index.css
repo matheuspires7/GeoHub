@@ -9,46 +9,63 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color-scheme: light dark;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  color-scheme: dark;
 }
 
 body {
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-width: 320px;
   min-height: 100vh;
   background-color: #242424;
   color: rgba(255, 255, 255, 0.87);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-  margin-bottom: 1em;
-  color: inherit;
-}
-
-
-.back-button {
-  background-color: #e53e3e;
-  border: none;
-  color: white;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.back-button:hover {
-  background-color: #c53030;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.back-button:focus {
-  outline: none;
-}
-
 option {
-  color: black;
-  background-color: white;
+  color: white;
+  background-color: #2a2a2a;
+}
+
+/* Componentes visuais compartilhados por todas as páginas */
+@layer components {
+  /* container centralizado no topo */
+  .page {
+    @apply mx-auto w-full max-w-3xl px-4 py-8 sm:px-6;
+  }
+
+  .page-title {
+    @apply mb-6 text-center text-3xl font-bold text-white;
+  }
+
+  /* cartão único: listas, formulários e detalhes */
+  .card {
+    @apply rounded-xl border border-white/10 bg-white/5 p-6 shadow-lg;
+  }
+
+  .form-label {
+    @apply mb-1 block font-semibold text-gray-200;
+  }
+
+  .form-input {
+    @apply w-full rounded-md border border-white/15 bg-black/20 p-2 text-white placeholder:text-gray-500 focus:border-blue-400 focus:outline-none;
+  }
+
+  .btn {
+    @apply inline-block rounded-md px-4 py-2 text-center font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply bg-blue-500 hover:bg-blue-700;
+  }
+
+  .btn-success {
+    @apply bg-green-500 hover:bg-green-700;
+  }
+
+  .btn-secondary {
+    @apply bg-white/10 hover:bg-white/20 disabled:hover:bg-white/10;
+  }
+
+  .alert-error {
+    @apply mb-4 text-center text-red-400;
+  }
 }

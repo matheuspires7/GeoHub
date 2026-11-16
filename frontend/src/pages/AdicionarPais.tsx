@@ -111,83 +111,83 @@ const AdicionarPais: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="page">
       <BackButton />
-      <h1 className="text-3xl font-bold text-center">
+      <h1 className="page-title">
         {isEditing ? "Edit Country" : "Add Country"}
       </h1>
 
-      {errorMessage && <p className="text-red-500 text-center mb-4">{errorMessage}</p>}
+      {errorMessage && <p className="alert-error">{errorMessage}</p>}
 
-      <div className="mt-6 max-w-md mx-auto flex gap-2">
+      <div className="card mx-auto mb-6 flex max-w-md gap-2">
         <input
           type="text"
           value={pesquisaNome}
           onChange={(e) => setPesquisaNome(e.target.value)}
           placeholder="Enter the name of the country"
-          className="flex-1 p-2 border rounded-md"
+          className="form-input flex-1"
         />
         <button
           type="button"
           onClick={handlePesquisar}
-          className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-700"
+          className="btn btn-success"
         >
           Search
         </button>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-8 max-w-md mx-auto">
+      <form onSubmit={handleSubmit} className="card mx-auto max-w-md">
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Name</label>
+          <label className="form-label">Name</label>
           <input
             type="text"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="form-input"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Population</label>
+          <label className="form-label">Population</label>
           <input
             type="number"
             value={populacao}
             onChange={(e) => setPopulacao(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="form-input"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Official Language</label>
+          <label className="form-label">Official Language</label>
           <input
             type="text"
             value={idioma}
             onChange={(e) => setIdioma(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="form-input"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Currency</label>
+          <label className="form-label">Currency</label>
           <input
             type="text"
             value={moeda}
             onChange={(e) => setMoeda(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="form-input"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Continent</label>
+          <label className="form-label">Continent</label>
           <select
             value={continenteId}
             onChange={(e) => setContinenteId(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="form-input"
             required
           >
             <option value="">Select Continent</option>
@@ -198,12 +198,12 @@ const AdicionarPais: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Flag URL</label>
+          <label className="form-label">Flag URL</label>
           <input
             type="text"
             value={urlBandeira}
             onChange={(e) => setUrlBandeira(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="form-input"
           />
           {urlBandeira && (
             <img src={urlBandeira} alt="Bandeira" className="mt-2 h-16" />
@@ -211,28 +211,28 @@ const AdicionarPais: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">GDP per capita</label>
+          <label className="form-label">GDP per capita</label>
           <input
             type="number"
             value={pibPerCapita}
             onChange={(e) => setPibPerCapita(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="form-input"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-lg font-semibold">Inflation (%)</label>
+          <label className="form-label">Inflation (%)</label>
           <input
             type="number"
             value={inflacao}
             onChange={(e) => setInflacao(e.target.value)}
-            className="w-full p-2 border rounded-md"
+            className="form-input"
           />
         </div>
 
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+          className="btn btn-primary w-full"
         >
           {isEditing ? "Save Changes" : "Add Country"}
         </button>
