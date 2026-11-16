@@ -1,10 +1,31 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Globe, Map, Building2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Globe, Map, Building2, LogOut } from "lucide-react";
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
+  const nome = localStorage.getItem("nome");
+
+  // sair = apagar o token do navegador
+  const sair = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("nome");
+    navigate("/login");
+  };
+
   return (
     <div className="min-h-screen flex flex-col justify-center items-center p-6">
+      <div className="absolute top-4 right-4 flex items-center gap-4">
+        <span className="text-gray-300">{nome}</span>
+        <button
+          onClick={sair}
+          className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-xl shadow-md hover:bg-red-700 transition-all"
+        >
+          <LogOut className="w-4 h-4" />
+          Sign out
+        </button>
+      </div>
+
       <h1 className="text-5xl font-bold text-center text-white">GeoHub</h1>
 
       <p className="mt-4 text-gray-300 text-center text-lg max-w-3xl">
