@@ -13,7 +13,7 @@ export const createContinente = async (nome: string, descricao: string) => {
 
 export const getContinentes = async (page: number, limit: number, nome: string) => {
   try {
-    const where = nome ? { nome: { contains: nome, mode: 'insensitive' } } : {};
+    const where = nome ? { nome: { contains: nome } } : {};
 
     const totalCount = await prisma.continente.count({
       where,
