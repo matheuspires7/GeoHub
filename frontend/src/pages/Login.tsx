@@ -23,33 +23,43 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center p-6">
-      <form
-        onSubmit={entrar}
-        className="w-full max-w-sm bg-gray-800 p-8 rounded-xl shadow-md flex flex-col gap-4"
-      >
-        <h1 className="text-3xl font-bold text-center text-white">GeoHub</h1>
-        <p className="text-gray-400 text-center">Sign in to continue</p>
+    <div className="min-h-screen flex flex-col justify-center items-center p-6">
+      <h1 className="text-5xl font-bold text-center text-white">GeoHub</h1>
+      <p className="mt-4 text-gray-400 text-center">Sign in to continue</p>
 
-        {erro && <p className="text-red-400 text-center">{erro}</p>}
+      {erro && <p className="mt-4 text-red-500 text-center">{erro}</p>}
 
-        <input
-          value={usuario}
-          onChange={(e) => setUsuario(e.target.value)}
-          placeholder="Username"
-          required
-          className="p-3 rounded-lg bg-gray-700 text-white"
-        />
-        <input
-          type="password"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-          placeholder="Password"
-          required
-          className="p-3 rounded-lg bg-gray-700 text-white"
-        />
-
-        <button className="bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-700 transition-all">
+      <form onSubmit={entrar} className="mt-8 w-full max-w-md">
+        <div className="mb-4">
+          <label htmlFor="usuario" className="block text-lg font-semibold">
+            Username
+          </label>
+          <input
+            type="text"
+            id="usuario"
+            value={usuario}
+            onChange={(e) => setUsuario(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="senha" className="block text-lg font-semibold">
+            Password
+          </label>
+          <input
+            type="password"
+            id="senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+        >
           Sign in
         </button>
       </form>
