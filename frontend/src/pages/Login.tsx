@@ -23,15 +23,15 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center p-6">
-      <h1 className="text-5xl font-bold text-center text-white">GeoHub</h1>
-      <p className="mt-4 text-gray-400 text-center">Sign in to continue</p>
+    <div className="page flex min-h-screen flex-col justify-center">
+      <h1 className="page-title text-5xl">GeoHub</h1>
+      <p className="-mt-4 mb-6 text-center text-gray-400">Sign in to continue</p>
 
-      {erro && <p className="mt-4 text-red-500 text-center">{erro}</p>}
+      {erro && <p className="alert-error">{erro}</p>}
 
-      <form onSubmit={entrar} className="mt-8 w-full max-w-md">
+      <form onSubmit={entrar} className="card mx-auto w-full max-w-md">
         <div className="mb-4">
-          <label htmlFor="usuario" className="block text-lg font-semibold">
+          <label htmlFor="usuario" className="form-label">
             Username
           </label>
           <input
@@ -39,12 +39,12 @@ const Login: React.FC = () => {
             id="usuario"
             value={usuario}
             onChange={(e) => setUsuario(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className="form-input"
             required
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="senha" className="block text-lg font-semibold">
+          <label htmlFor="senha" className="form-label">
             Password
           </label>
           <input
@@ -52,14 +52,11 @@ const Login: React.FC = () => {
             id="senha"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className="form-input"
             required
           />
         </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
-        >
+        <button type="submit" className="btn btn-primary w-full">
           Sign in
         </button>
       </form>
