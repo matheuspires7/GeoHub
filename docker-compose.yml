@@ -20,8 +20,6 @@ services:
     restart: always
     environment:
       DATABASE_URL: mysql://${DB_USER}:${DB_PASS}@db:3306/${DB_NAME}
-    ports:
-      - "3000:3000"
     depends_on:
       db:
         condition: service_healthy
@@ -31,12 +29,16 @@ services:
     restart: always
     ports:
       - "8081:80"
+    depends_on:
+      - backend
 
   front2:
     build: ./frontend
     restart: always
     ports:
       - "8082:80"
+    depends_on:
+      - backend
 
 volumes:
   dados_banco:
