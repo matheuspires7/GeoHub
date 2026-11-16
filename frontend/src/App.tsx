@@ -14,9 +14,18 @@ import Login from './pages/Login';
 import RotaProtegida from './components/RotaProtegida';
 import Usuarios from './pages/Usuarios';
 
+// nome do front que entregou o site (definido no docker-compose)
+const servidor = import.meta.env.VITE_SERVIDOR;
+
 const App: React.FC = () => {
   return (
     <Router>
+      {servidor && (
+        <div className="fixed bottom-3 right-3 rounded-md bg-white/10 px-3 py-1 text-sm text-gray-300">
+          Served by: {servidor}
+        </div>
+      )}
+
       <Routes>
         <Route path="/login" element={<Login />} />
 

@@ -4,6 +4,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+# nome do front, vem do docker-compose e entra no build
+ARG VITE_SERVIDOR
+ENV VITE_SERVIDOR=$VITE_SERVIDOR
 RUN npm run build
 
 # só os arquivos prontos vão pro nginx

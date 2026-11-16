@@ -28,7 +28,10 @@ services:
         condition: service_healthy
 
   front1:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_SERVIDOR: "Front 1"
     restart: always
     ports:
       - "8081:80"
@@ -36,7 +39,10 @@ services:
       - backend
 
   front2:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_SERVIDOR: "Front 2"
     restart: always
     ports:
       - "8082:80"
