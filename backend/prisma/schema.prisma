@@ -40,3 +40,12 @@ model Cidade {
   paisId       Int
   pais         Pais     @relation(fields: [paisId], references: [id])
 }
+
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  usuario   String   @unique
+  senha     String
+  criadoEm  DateTime @default(now())
+}
