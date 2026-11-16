@@ -1,0 +1,42 @@
+services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+    volumes:
+      - dados_banco:/var/lib/mysql
+    # o backend só sobe quando o banco responder
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    restart: always
+    environment:
+      DATABASE_URL: mysql://${DB_USER}:${DB_PASS}@db:3306/${DB_NAME}
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  front1:
+    build: ./frontend
+    restart: always
+    ports:
+      - "8081:80"
+
+  front2:
+    build: ./frontend
+    restart: always
+    ports:
+      - "8082:80"
+
+volumes:
+  dados_banco:
